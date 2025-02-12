@@ -30,7 +30,7 @@
         }
         .clock span {
             position: absolute;
-            font-size: 24px;
+            font-size: 14px;
             font-weight: bold;
             color: #333;
         }
@@ -94,11 +94,11 @@
     <script>
         function generateClockNumbers() {
             let clock = document.getElementById("clockDisplay");
-            for (let i = 1; i <= 12; i++) {
-                let num = document.createElement("span");
-                let angle = (i - 3) * 30;
+            for (let i = 1; i <= 24; i++) {
+                let angle = (i - 6) * 15;
                 let x = 50 + 42 * Math.cos(angle * Math.PI / 180);
                 let y = 50 + 42 * Math.sin(angle * Math.PI / 180);
+                let num = document.createElement("span");
                 num.style.left = `${x}%`;
                 num.style.top = `${y}%`;
                 num.style.transform = "translate(-50%, -50%)";
@@ -110,18 +110,18 @@
         let correctTime;
 
         function generateTime() {
-            let hours = Math.floor(Math.random() * 12) + 1;
+            let hours = Math.floor(Math.random() * 24);
             let minutes = Math.floor(Math.random() * 4) * 15;
-            correctTime = `${hours}:${minutes.toString().padStart(2, '0')}`;
+            correctTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
             
-            document.getElementById('hourHand').style.transform = `translateX(-50%) rotate(${(hours % 12) * 30 + minutes * 0.5}deg)`;
+            document.getElementById('hourHand').style.transform = `translateX(-50%) rotate(${(hours % 24) * 15 + minutes * 0.25}deg)`;
             document.getElementById('minuteHand').style.transform = `translateX(-50%) rotate(${minutes * 6}deg)`;
 
             let answers = [correctTime];
             while (answers.length < 4) {
-                let randomH = Math.floor(Math.random() * 12) + 1;
+                let randomH = Math.floor(Math.random() * 24);
                 let randomM = Math.floor(Math.random() * 4) * 15;
-                let fakeTime = `${randomH}:${randomM.toString().padStart(2, '0')}`;
+                let fakeTime = `${randomH.toString().padStart(2, '0')}:${randomM.toString().padStart(2, '0')}`;
                 if (!answers.includes(fakeTime)) answers.push(fakeTime);
             }
             
