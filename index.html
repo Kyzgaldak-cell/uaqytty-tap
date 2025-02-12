@@ -20,44 +20,38 @@
         }
         .clock {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             margin: 20px auto;
             border: 2px solid black;
             border-radius: 50%;
             background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .clock::before {
-            content: "12";
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .clock::after {
-            content: "6";
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
         }
         .clock span {
             position: absolute;
+            font-size: 16px;
+            font-weight: bold;
         }
-        .clock .three {
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
+        .clock .num {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
         }
-        .clock .nine {
-            left: 5px;
-            top: 50%;
-            transform: translateY(-50%);
+        .hand {
+            position: absolute;
+            background: black;
+            transform-origin: bottom;
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(0) rotate(0deg);
+        }
+        .hour {
+            width: 6px;
+            height: 35px;
+        }
+        .minute {
+            width: 4px;
+            height: 50px;
         }
         .buttons button {
             padding: 12px;
@@ -81,8 +75,12 @@
         <h1>Уақытты тап! ⏰</h1>
         <p>Көрсетілген уақытқа сәйкес дұрыс жауапты таңдаңыз!</p>
         <div class="clock" id="clockDisplay">
-            <span class="three">3</span>
-            <span class="nine">9</span>
+            <div class="hand hour" id="hourHand"></div>
+            <div class="hand minute" id="minuteHand"></div>
+            <span class="num" style="top: 5px; left: 50%; transform: translateX(-50%);">12</span>
+            <span class="num" style="right: 5px; top: 50%; transform: translateY(-50%);">3</span>
+            <span class="num" style="bottom: 5px; left: 50%; transform: translateX(-50%);">6</span>
+            <span class="num" style="left: 5px; top: 50%; transform: translateY(-50%);">9</span>
         </div>
         <div class="buttons">
             <button onclick="checkAnswer(this)"></button>
@@ -101,8 +99,11 @@
             let hours = Math.floor(Math.random() * 12) + 1;
             let minutes = Math.floor(Math.random() * 4) * 15;
             correctTime = `${hours}:${minutes.toString().padStart(2, '0')}`;
-            document.getElementById('clockDisplay').textContent = correctTime;
+            document.getElementById('clockDisplay').setAttribute("data-time", correctTime);
             
+            document.getElementById('hourHand').style.transform = `translateX(-50%) translateY(0) rotate(${(hours % 12) * 30}deg)`;
+            document.getElementById('minuteHand').style.transform = `translateX(-50%) translateY(0) rotate(${minutes * 6}deg)`;
+
             let answers = [correctTime];
             while (answers.length < 4) {
                 let randomH = Math.floor(Math.random() * 12) + 1;
